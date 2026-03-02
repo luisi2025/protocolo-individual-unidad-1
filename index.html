@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo individual</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2c5282;
+            --accent-color: #4299e1;
+            --dark-bg: #0f172a;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #334155;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--secondary-color); border-radius: 10px; }
+
+        /* Navbar */
+        .navbar { transition: all 0.4s ease; padding: 1.2rem 0; background: transparent; }
+        .navbar-scrolled { padding: 0.5rem 0; background: rgba(26, 54, 93, 0.95) !important; backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .navbar-brand { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
+        .nav-link { font-weight: 500; margin: 0 8px; position: relative; color: rgba(255,255,255,0.85); }
+        .nav-link:hover { color: white; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 50%; background-color: var(--accent-color); transition: all 0.3s ease; transform: translateX(-50%); }
+        .nav-link:hover::after { width: 80%; }
+
+        /* Hero */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(26, 54, 93, 0.92), rgba(44, 82, 130, 0.88)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center; background-attachment: fixed; display: flex; align-items: center; position: relative;
+        }
+        .hero-title { font-size: 3.2rem; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .text-gradient { background: linear-gradient(90deg, #63b3ed, #4299e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Buttons */
+        .btn-glow { background: linear-gradient(90deg, var(--accent-color), var(--secondary-color)); border: none; padding: 12px 35px; border-radius: 50px; color: white; font-weight: 600; box-shadow: 0 0 20px rgba(66, 153, 225, 0.4); transition: all 0.3s ease; }
+        .btn-glow:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(66, 153, 225, 0.7); color: white; }
+
+        /* Sections */
+        .section-padding { padding: 90px 0; }
+        .section-title { position: relative; margin-bottom: 20px; font-weight: 700; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: linear-gradient(90deg, var(--primary-color), var(--accent-color)); margin: 15px auto 0; border-radius: 2px; }
+        .section-title.text-white::after { background: white; }
+        .section-subtitle { font-size: 1.1rem; color: #64748b; margin-bottom: 50px; }
+
+        /* Cards */
+        .feature-card { background: white; border-radius: 15px; padding: 35px 25px; text-align: center; transition: all 0.3s ease; border: 1px solid rgba(0,0,0,0.05); height: 100%; position: relative; overflow: hidden; }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(26, 54, 93, 0.1); border-color: transparent; }
+        .feature-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary-color), var(--accent-color)); transform: scaleX(0); transition: transform 0.3s ease; }
+        .feature-card:hover::before { transform: scaleX(1); }
+        
+        .feature-icon { width: 70px; height: 70px; background: rgba(26, 54, 93, 0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.8rem; color: var(--primary-color); transition: all 0.4s ease; }
+        .feature-card:hover .feature-icon { background: var(--primary-color); color: white; transform: rotateY(360deg); }
+
+        /* Accordion */
+        .accordion-item { border: none; margin-bottom: 15px; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .accordion-button { font-weight: 600; font-family: 'Poppins', sans-serif; background: white; }
+        .accordion-button:not(.collapsed) { background: var(--primary-color); color: white; box-shadow: none; }
+        .accordion-button:focus { box-shadow: none; }
+
+        /* Table */
+        .table-custom { border-radius: 10px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .table-custom thead th { background: var(--primary-color); color: white; border: none; font-family: 'Poppins', sans-serif; }
+        .table-custom tbody tr:hover { background: #f8fafc; }
+
+        /* Utility Cards (Hallazgos/Biblio) */
+        .utility-card { transition: all 0.3s; border-left: 4px solid transparent; }
+        .utility-card:hover { transform: translateX(5px); border-left-color: var(--accent-color); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        /* Footer */
+        .footer { background: linear-gradient(135deg, var(--primary-color), var(--dark-bg)); color: white; }
+
+        /* Theme Toggle */
+        .theme-toggle { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
+        .theme-toggle:hover { background: rgba(255,255,255,0.2); transform: rotate(20deg); }
+
+        /* Dark Mode */
+        [data-bs-theme="dark"] body { background-color: var(--dark-bg); color: #e2e8f0; }
+        [data-bs-theme="dark"] .feature-card, [data-bs-theme="dark"] .accordion-item, [data-bs-theme="dark"] .utility-card { background: #1e293b; border-color: rgba(255,255,255,0.05); }
+        [data-bs-theme="dark"] .feature-icon { background: rgba(255,255,255,0.05); color: #63b3ed; }
+        [data-bs-theme="dark"] .accordion-button { background: #1e293b; color: white; }
+        [data-bs-theme="dark"] .accordion-button:not(.collapsed) { background: var(--secondary-color); }
+        [data-bs-theme="dark"] .accordion-body, [data-bs-theme="dark"] .table-custom tbody { background: #1e293b; color: #e2e8f0; }
+        [data-bs-theme="dark"] .table-custom { background: #1e293b; }
+        [data-bs-theme="dark"] .section-subtitle, [data-bs-theme="dark"] .text-muted { color: #94a3b8 !important; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="#hero"><i class="fas fa-atom"></i> BD Investigación </a>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><i class="fas fa-bars"></i></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto me-3 align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#bases-datos">Bases de Datos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#universidad">Universidad</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#google-academico">Google Scholar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#caracteristicas">Características</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#ventajas">Ventajas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#ingenieria">Ingeniería</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#hallazgos">Hallazgos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#bibliografia">Bibliografía</a></li>
+                    <li class="nav-item ms-2">
+                        <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section text-center text-white">
+        <div class="container hero-content" data-aos="fade-up">
+            <span class="badge bg-white text-primary px-3 py-2 rounded-pill mb-3 shadow-sm"><i class="fas fa-graduation-cap me-2"></i>Universidad de Cartagena</span>
+            <h1 class="hero-title">Bases de Datos y <br><span class="text-gradient">Google Académico</span></h1>
+            <p class="lead opacity-75 mb-4">En los Procesos de Investigación</p>
+            <p class="mb-5 opacity-90" style="max-width: 700px; margin: 0 auto;">Explora las herramientas digitales que revolucionan la manera de acceder al conocimiento científico y académico a nivel mundial.</p>
+            <a href="#bases-datos" class="btn btn-glow btn-lg">Comenzar Exploración <i class="fas fa-rocket ms-2"></i></a>
+            
+            <div class="row mt-5 justify-content-center">
+                <div class="col-6 col-md-2 mb-3">
+                    <div class="glass-card text-center py-3 px-2" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;">
+                        <i class="fas fa-book-open fa-2x mb-2"></i>
+                        <h6 class="mb-0 small">Artículos</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2 mb-3">
+                    <div class="glass-card text-center py-3 px-2" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;">
+                        <i class="fas fa-file-signature fa-2x mb-2"></i>
+                        <h6 class="mb-0 small">Tesis</h6>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2 mb-3">
+                    <div class="glass-card text-center py-3 px-2" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;">
+                        <i class="fas fa-database fa-2x mb-2"></i>
+                        <h6 class="mb-0 small">Datos</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Bases de Datos -->
+    <section id="bases-datos" class="section-padding bg-light-subtle">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">¿Qué son las Bases de Datos?</h2>
+                <p class="section-subtitle">Sistemas organizados que permiten almacenar, gestionar, ordenar y recuperar datos eficientemente. Son la columna vertebral de la investigación moderna.</p>
+            </div>
+            
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <p class="fs-5 text-muted mb-4">En el campo académico, las bases de datos contienen artículos científicos, libros digitales, tesis, revistas especializadas y documentos de investigación. Estos sistemas facilitan el acceso a gran cantidad de información estructurada y confiable, esencial para la producción de conocimiento riguroso.</p>
+                    
+                    <h4 class="fw-bold mb-3">Tipos de Bases de Datos Académicas:</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle text-primary fa-lg me-3"></i><span><strong>Bibliográficas:</strong> Registros de publicaciones con referencias (ej. Scopus).</span></li>
+                        <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle text-primary fa-lg me-3"></i><span><strong>Texto Completo:</strong> Acceso directo al documento (ej. ScienceDirect).</span></li>
+                        <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle text-primary fa-lg me-3"></i><span><strong>Especializadas:</strong> Enfocadas en áreas específicas (ej. IEEE Xplore).</span></li>
+                        <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle text-primary fa-lg me-3"></i><span><strong>Repositorios:</strong> Archivos institucionales de producción científica.</span></li>
+                    </ul>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Data Analysis" class="img-fluid">
+                        <div class="card-body bg-primary text-white p-4">
+                            <div class="d-flex justify-content-around text-center">
+                                <div><h3 class="fw-bold mb-0">10M+</h3><small>Documentos</small></div>
+                                <div><h3 class="fw-bold mb-0">5K+</h3><small>Revistas</small></div>
+                                <div><h3 class="fw-bold mb-0">99%</h3><small>Confiabilidad</small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-database"></i></div>
+                        <h4>Almacenamiento</h4>
+                        <p class="text-muted small">Organización sistemática de grandes volúmenes de información académica y científica a nivel global.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-cogs"></i></div>
+                        <h4>Gestión</h4>
+                        <p class="text-muted small">Administración eficiente de recursos digitales con herramientas de indexación avanzada.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-search"></i></div>
+                        <h4>Recuperación</h4>
+                        <p class="text-muted small">Acceso rápido y preciso mediante motores especializados y algoritmos de búsqueda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Universidad -->
+    <section id="universidad" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Organización en la Universidad de Cartagena</h2>
+                <p class="section-subtitle">El Sistema de Bibliotecas ofrece recursos estructurados para estudiantes, docentes e investigadores.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8" data-aos="fade-up">
+                    <div class="accordion" id="accordionUni">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1"><i class="fas fa-book me-3 text-primary"></i> Catálogo de la Biblioteca</button></h2>
+                            <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionUni"><div class="accordion-body">Permite consultar el material físico y digital disponible en las diferentes sedes de la universidad, ofreciendo servicios de préstamo y reserva.</div></div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2"><i class="fas fa-server me-3 text-primary"></i> Bases de Datos Electrónicas</button></h2>
+                            <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionUni"><div class="accordion-body">Acceso a recursos académicos multidisciplinarios y especializados en Ingeniería, Ciencias de la Salud, Sociales y Humanidades.</div></div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3"><i class="fas fa-archive me-3 text-primary"></i> Repositorio Institucional</button></h2>
+                            <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#accordionUni"><div class="accordion-body">Contiene documentos producidos por la comunidad académica: tesis de grado y posgrado, proyectos de investigación y artículos científicos.</div></div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4"><i class="fas fa-newspaper me-3 text-primary"></i> Portal de Revistas</button></h2>
+                            <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionUni"><div class="accordion-body">Reúne publicaciones científicas en formato digital editadas por la universidad, fomentando la visibilidad de la producción científica local.</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5 g-3 text-center justify-content-center">
+                <div class="col-6 col-md-3" data-aos="fade-up"><div class="card shadow-sm border-0 p-3 h-100 justify-content-center"><div class="fw-bold text-danger">Scopus</div><small class="text-muted">Citas y Referencias</small></div></div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100"><div class="card shadow-sm border-0 p-3 h-100 justify-content-center"><div class="fw-bold text-info">ScienceDirect</div><small class="text-muted">Texto Completo</small></div></div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200"><div class="card shadow-sm border-0 p-3 h-100 justify-content-center"><div class="fw-bold text-success">SpringerLink</div><small class="text-muted">Ciencia y Tecnología</small></div></div>
+                <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300"><div class="card shadow-sm border-0 p-3 h-100 justify-content-center"><div class="fw-bold" style="color:purple;">SAGE</div><small class="text-muted">Ciencias Sociales</small></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Google Académico -->
+    <section id="google-academico" class="section-padding bg-light-subtle">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 rounded-pill"><i class="fas fa-graduation-cap me-2"></i>Herramienta Clave</span>
+                    <h2 class="display-6 fw-bold mb-3">¿Qué es Google Académico?</h2>
+                    <p class="lead text-muted">Un motor de búsqueda especializado que permite encontrar literatura académica de diversas disciplinas.</p>
+                    <p class="text-muted">Ofrece resultados de fuentes confiables como revistas indexadas, repositorios institucionales, tesis universitarias y preprints. Es la puerta de entrada a millones de documentos científicos.</p>
+                    
+                    <button class="btn btn-link text-primary text-decoration-none p-0 mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#googleMore">
+                        Ver funcionalidades avanzadas <i class="fas fa-arrow-down ms-1"></i>
+                    </button>
+                    <div class="collapse mt-3" id="googleMore">
+                        <div class="card card-body border-0 bg-white shadow-sm">
+                            <ul class="mb-0">
+                                <li>Búsqueda por autor, título o palabras clave.</li>
+                                <li>Enlaces a versiones PDF gratuitas cuando están disponibles.</li>
+                                <li>Alertas de nuevas publicaciones sobre temas de interés.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="row g-3 text-center">
+                        <div class="col-6"><div class="card bg-white shadow-sm p-4 border-0 h-100 justify-content-center"><i class="fas fa-book-open fa-2x text-primary mb-2"></i><h6 class="mb-0">Artículos</h6></div></div>
+                        <div class="col-6"><div class="card bg-white shadow-sm p-4 border-0 h-100 justify-content-center"><i class="fas fa-file-alt fa-2x text-primary mb-2"></i><h6 class="mb-0">Tesis</h6></div></div>
+                        <div class="col-6"><div class="card bg-white shadow-sm p-4 border-0 h-100 justify-content-center"><i class="fas fa-book fa-2x text-primary mb-2"></i><h6 class="mb-0">Libros</h6></div></div>
+                        <div class="col-6"><div class="card bg-white shadow-sm p-4 border-0 h-100 justify-content-center"><i class="fas fa-gavel fa-2x text-primary mb-2"></i><h6 class="mb-0">Opiniones</h6></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Características -->
+    <section id="caracteristicas" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Características Principales</h2>
+                <p class="section-subtitle">Google Académico ofrece herramientas únicas diseñadas específicamente para facilitar la investigación académica.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-check-double"></i></div>
+                        <h5>Resultados Verificados</h5>
+                        <p class="text-muted small">Fuentes confiables con rigor científico y revisiones por pares.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <h5>Filtros Avanzados</h5>
+                        <p class="text-muted small">Filtrar por año, autor, revista y tipo de publicación.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-comments"></i></div>
+                        <h5>Conteo de Citas</h5>
+                        <p class="text-muted small">Indica cuántas veces un artículo ha sido citado por otros investigadores.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-file-pdf"></i></div>
+                        <h5>Versiones PDF</h5>
+                        <p class="text-muted small">Enlaces directos a versiones del texto completo disponibles en la web.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-quote-right"></i></div>
+                        <h5>Generador de Citas</h5>
+                        <p class="text-muted small">Formatos automáticos en APA, MLA, Chicago, Harvard y Vancouver.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-bell"></i></div>
+                        <h5>Alertas Académicas</h5>
+                        <p class="text-muted small">Notificaciones de nuevos artículos sobre temas de interés personalizado.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Importancia -->
+    <section class="py-5 bg-primary text-white text-center">
+        <div class="container py-5" data-aos="zoom-in">
+            <h2 class="mb-4">Importancia en la Investigación</h2>
+            <p class="lead opacity-75 mb-0" style="max-width: 900px; margin: 0 auto;">
+                "Ayuda a construir trabajos académicos con base en evidencia científica, mejorar la calidad de investigaciones y facilitar la revisión bibliográfica, que es una fase indispensable en cualquier proceso académico serio."
+            </p>
+        </div>
+    </section>
+
+    <!-- Section: Ventajas -->
+    <section id="ventajas" class="section-padding bg-light-subtle">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Ventajas Comparativas</h2>
+                <p class="section-subtitle">Comparación directa entre Google Académico y los buscadores web tradicionales.</p>
+            </div>
+            <div class="row justify-content-center" data-aos="fade-up">
+                <div class="col-lg-10">
+                    <div class="table-responsive table-custom">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead><tr><th>Característica</th><th class="text-center">Buscadores Tradicionales</th><th class="text-center">Google Académico</th></tr></thead>
+                            <tbody class="bg-white">
+                                <tr><td><strong>Enfoque del Contenido</strong></td><td class="text-center text-muted">Web general, blogs, noticias</td><td class="text-center text-success fw-bold"><i class="fas fa-check me-1"></i>Académico y Científico</td></tr>
+                                <tr><td><strong>Relevancia</strong></td><td class="text-center text-muted">Variable, basado en SEO</td><td class="text-center text-success fw-bold"><i class="fas fa-check me-1"></i>Alta para Investigación</td></tr>
+                                <tr><td><strong>Fuentes</strong></td><td class="text-center text-muted">Cualquier sitio web indexado</td><td class="text-center text-success fw-bold"><i class="fas fa-check me-1"></i>Expertas y Confiables</td></tr>
+                                <tr><td><strong>Conteo de Citas</strong></td><td class="text-center text-muted">No disponible</td><td class="text-center text-success fw-bold"><i class="fas fa-check me-1"></i>Disponible</td></tr>
+                                <tr><td><strong>Acceso a PDF</strong></td><td class="text-center text-muted">Resultados mezclados</td><td class="text-center text-success fw-bold"><i class="fas fa-check me-1"></i>Enlaces directos</td></tr>
+                                <tr><td><strong>Ética y Plagio</strong></td><td class="text-center text-muted">Riesgo de fuentes no verificadas</td><td class="text-center text-success fw-bold"><i class="fas fa-check me-1"></i>Fuentes citables</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Ingeniería -->
+    <section id="ingenieria" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Uso en Ingeniería de Software</h2>
+                <p class="section-subtitle">Aplicaciones prácticas de estas herramientas en el desarrollo tecnológico.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                    <div class="feature-card text-start p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon me-3" style="width:50px; height:50px;"><i class="fas fa-code-branch"></i></div>
+                            <h5 class="mb-0">Metodologías Ágiles</h5>
+                        </div>
+                        <p class="text-muted small mb-2">Investigación sobre frameworks ágiles como Scrum, XP y Kanban para optimizar el desarrollo.</p>
+                        <span class="badge bg-primary-subtle text-primary me-1">Scrum</span><span class="badge bg-info-subtle text-info">XP</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card text-start p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon me-3" style="width:50px; height:50px;"><i class="fas fa-bug"></i></div>
+                            <h5 class="mb-0">Pruebas de Software</h5>
+                        </div>
+                        <p class="text-muted small mb-2">Técnicas modernas de testing automatizado y aseguramiento de calidad (QA).</p>
+                        <span class="badge bg-success-subtle text-success me-1">QA</span><span class="badge bg-warning-subtle text-warning">Testing</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card text-start p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon me-3" style="width:50px; height:50px;"><i class="fas fa-project-diagram"></i></div>
+                            <h5 class="mb-0">Arquitectura</h5>
+                        </div>
+                        <p class="text-muted small mb-2">Patrones de diseño y arquitecturas escalables (Microservicios, Serverless).</p>
+                        <span class="badge bg-secondary-subtle text-secondary">Microservicios</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card text-start p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon me-3" style="width:50px; height:50px;"><i class="fas fa-clipboard-list"></i></div>
+                            <h5 class="mb-0">Ingeniería de Requisitos</h5>
+                        </div>
+                        <p class="text-muted small mb-2">Procesos de análisis, especificación y gestión de requisitos.</p>
+                        <span class="badge bg-danger-subtle text-danger me-1">Requisitos</span><span class="badge bg-light text-dark">Análisis</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-card text-start p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon me-3" style="width:50px; height:50px;"><i class="fas fa-brain"></i></div>
+                            <h5 class="mb-0">IA Aplicada</h5>
+                        </div>
+                        <p class="text-muted small mb-2">Inteligencia artificial y Machine Learning integrados en el ciclo de desarrollo.</p>
+                        <span class="badge bg-info-subtle text-info me-1">IA</span><span class="badge bg-primary-subtle text-primary">ML</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Utilidad Estudiantes -->
+    <section id="utilidad" class="section-padding bg-light-subtle">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <h2 class="section-title text-start">Utilidad para Estudiantes</h2>
+                    <p class="text-muted mb-4">Las bases de datos académicas representan una herramienta fundamental para cualquier estudiante universitario. Facilitan el acceso a información confiable, actualizada y con validez científica.</p>
+                    
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0"><i class="fas fa-search text-primary fa-lg mt-1 me-3"></i></div>
+                                <div>
+                                    <h5 class="mb-1">Encontrar Fuentes</h5>
+                                    <p class="text-muted small mb-0">Localiza referencias bibliográficas de alta calidad para trabajos de grado.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0"><i class="fas fa-chart-line text-primary fa-lg mt-1 me-3"></i></div>
+                                <div>
+                                    <h5 class="mb-1">Evaluar Críticamente</h5>
+                                    <p class="text-muted small mb-0">Compara metodologías y resultados de estudios previos.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0"><i class="fas fa-user-graduate text-primary fa-lg mt-1 me-3"></i></div>
+                                <div>
+                                    <h5 class="mb-1">Habilidades de Investigación</h5>
+                                    <p class="text-muted small mb-0">Desarrolla competencias esenciales para el entorno profesional.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="card border-0 shadow-lg rounded-4 p-5 text-white bg-primary">
+                        <i class="fas fa-user-graduate fa-3x mb-3 opacity-75"></i>
+                        <h3>Fortalecimiento Académico</h3>
+                        <p class="opacity-75 mb-0">El uso correcto de estas herramientas eleva la calidad de los trabajos y prepara para el entorno profesional futuro.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Hallazgos -->
+    <section id="hallazgos" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Hallazgos de Investigación</h2>
+                <p class="section-subtitle">Evidencia visual y referencias obtenidas mediante la búsqueda en bases académicas.</p>
+            </div>
+
+            <div class="row mb-5 justify-content-center" data-aos="zoom-in-up">
+                <div class="col-lg-10">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <img src="https://z-cdn-media.chatglm.cn/files/1853fa2f-7938-45bb-9ae3-11b4bdeb8308.png?auth_key=1872417148-425f34fce0fa48abbe851bc9e75af0a6-0-b7c9ef75c0d4574210aca3f241b0f65c" alt="Google Scholar Screenshot" class="img-fluid w-100">
+                    </div>
+                    <p class="text-center text-muted mt-3 small"><em>Captura de pantalla del proceso de búsqueda en Google Académico sobre producción y comprensión textual.</em></p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card h-100 border-0 shadow-sm utility-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="bg-primary bg-opacity-10 p-3 rounded-circle"><i class="fas fa-link text-primary fa-lg"></i></div>
+                                <span class="badge bg-primary rounded-pill">Hallazgo 1</span>
+                            </div>
+                            <h5>Revista Docentes 20</h5>
+                            <p class="text-muted small">Artículo académico sobre interacción comunicativa en procesos educativos.</p>
+                            <a href="https://revista.docentes20.com/index.php/revista-docentes20/article/view/159" target="_blank" class="btn btn-sm btn-outline-primary mt-2 rounded-pill">Visitar <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card h-100 border-0 shadow-sm utility-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="bg-success bg-opacity-10 p-3 rounded-circle"><i class="fas fa-university text-success fa-lg"></i></div>
+                                <span class="badge bg-success rounded-pill">Hallazgo 2</span>
+                            </div>
+                            <h5>Repositorio UNH</h5>
+                            <p class="text-muted small">Recurso institucional de la Universidad Nacional de Huancavelica.</p>
+                            <a href="https://repositorio.unh.edu.pe/items/6aae0ec4-5ddd-49eb-9660-c434e5655bcf" target="_blank" class="btn btn-sm btn-outline-success mt-2 rounded-pill">Visitar <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card h-100 border-0 shadow-sm utility-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="bg-info bg-opacity-10 p-3 rounded-circle"><i class="fas fa-file-pdf text-info fa-lg"></i></div>
+                                <span class="badge bg-info rounded-pill">Hallazgo 3</span>
+                            </div>
+                            <h5>SSRN Research</h5>
+                            <p class="text-muted small">Paper de investigación alojado en la plataforma SSRN.</p>
+                            <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3527640" target="_blank" class="btn btn-sm btn-outline-info mt-2 rounded-pill">Visitar <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Conclusión -->
+    <section id="conclusion" class="section-padding text-white" style="background: linear-gradient(135deg, #1a365d, #2c5282);">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center" data-aos="zoom-in">
+                    <i class="fas fa-quote-left fa-3x opacity-25 mb-4"></i>
+                    <h2 class="section-title text-white">Conclusión</h2>
+                    <p class="lead mb-5 opacity-75">
+                        Las bases de datos y herramientas como Google Académico son recursos fundamentales en la formación académica. Permiten acceder a información científica confiable, organizar datos relevantes y facilitar la construcción de conocimiento riguroso.
+                    </p>
+                    <div class="d-inline-block p-3 rounded-pill bg-white bg-opacity-10">
+                        <i class="fas fa-university me-2"></i> Universidad de Cartagena - 2025
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Bibliografía -->
+    <section id="bibliografia" class="section-padding bg-light-subtle">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Bibliografía</h2>
+                <p class="section-subtitle">Referencias consultadas para la elaboración de este portal.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <!-- Ref 1 -->
+                    <div class="card border-0 shadow-sm mb-4 utility-card" data-aos="fade-up">
+                        <div class="card-body p-4 d-flex align-items-center">
+                            <div class="flex-shrink-0 me-4"><i class="fas fa-file-pdf fa-3x text-danger"></i></div>
+                            <div>
+                                <h5 class="mb-1">Guía de Bases de Datos Bibliográficas</h5>
+                                <p class="mb-1 text-muted small">Politécnico JIC</p>
+                                <a href="https://www.politecnicojic.edu.co/images/downloads/biblioteca/guias/bases-de-datos-bibliograficas.pdf" target="_blank" class="text-decoration-none text-primary fw-bold small">Ver Documento <i class="fas fa-external-link-alt ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ref 2 -->
+                    <div class="card border-0 shadow-sm mb-4 utility-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="card-body p-4 d-flex align-items-center">
+                            <div class="flex-shrink-0 me-4"><i class="fas fa-book fa-3x text-primary"></i></div>
+                            <div>
+                                <h5 class="mb-1">Google Académico: el buscador especializado para la ayuda a la investigación</h5>
+                                <p class="mb-1 text-muted small">Franco-Pérez, Á. M. (2023). Hospital a Domicilio, 7(1), 35-47.</p>
+                                <a href="https://scielo.isciii.es/pdf/had/v7n1/2530-5115-had-7-01-35.pdf" target="_blank" class="text-decoration-none text-primary fw-bold small">Ver en SciELO <i class="fas fa-external-link-alt ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ref 3 -->
+                    <div class="card border-0 shadow-sm utility-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="card-body p-4 d-flex align-items-center">
+                            <div class="flex-shrink-0 me-4"><i class="fas fa-globe fa-3x text-info"></i></div>
+                            <div>
+                                <h5 class="mb-1">Google Académico: Ventajas y Desventajas</h5>
+                                <p class="mb-1 text-muted small">Universidad Nacional de General Sarmiento (UNGS)</p>
+                                <a href="https://www.ungs.edu.ar/new/google-academico-ventajas-y-desventajas" target="_blank" class="text-decoration-none text-primary fw-bold small">Visitar Sitio <i class="fas fa-external-link-alt ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer pt-5 pb-3">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center mb-3"><i class="fas fa-atom fa-2x me-2"></i><h4 class="mb-0 fw-bold">BD Investigación</h4></div>
+                    <p class="text-white-50 small">Portal educativo sobre herramientas de investigación académica.</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="mb-3">Enlaces</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#bases-datos" class="text-white-50 text-decoration-none"><i class="fas fa-angle-right me-2"></i>¿Qué son?</a></li>
+                        <li class="mb-2"><a href="#google-academico" class="text-white-50 text-decoration-none"><i class="fas fa-angle-right me-2"></i>Google Académico</a></li>
+                        <li><a href="#bibliografia" class="text-white-50 text-decoration-none"><i class="fas fa-angle-right me-2"></i>Bibliografía</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="mb-3">Estudiante</h5>
+                    <p class="text-white-50 small mb-1"><i class="fas fa-user-graduate me-2"></i>Luisi Castro - Ingeniería de Software</p>
+                    <p class="text-white-50 small"><i class="fas fa-map-marker-alt me-2"></i>Universidad de Cartagena</p>
+                    <div class="mt-4 d-flex gap-3">
+                        <a href="#" class="text-white-50 fs-5"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-white-50 fs-5"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white-50 fs-5"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0 text-white-50 small">© 2026 Luisi Castro. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
+
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNav');
+            if (window.scrollY > 50) navbar.classList.add('navbar-scrolled');
+            else navbar.classList.remove('navbar-scrolled');
+        });
+
+        const toggleBtn = document.getElementById('theme-toggle-btn');
+        const htmlElement = document.documentElement;
+        const icon = toggleBtn.querySelector('i');
+
+        if (localStorage.getItem('theme') === 'dark') {
+            htmlElement.setAttribute('data-bs-theme', 'dark');
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        toggleBtn.addEventListener('click', function() {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            if (currentTheme === 'light') {
+                htmlElement.setAttribute('data-bs-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                htmlElement.setAttribute('data-bs-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    const navCollapse = document.getElementById('navbarNav');
+                    const bsCollapse = bootstrap.Collapse.getInstance(navCollapse);
+                    if (bsCollapse) bsCollapse.hide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
